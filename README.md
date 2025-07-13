@@ -52,13 +52,13 @@ The data is stored in a **MySQL database** and displayed in a clean, responsive 
 
 ## ⚙️ Setup Instructions
 
-# ✅ 1. Clone the Repository
+### ✅ 1. Clone the Repository
 
 ```bash
 git clone https://github.com/your-username/Cricket-Match-Dashboard.git
 cd Cricket-Match-Dashboard
 ```
-# 🔐 2. Create a .env File
+### 🔐 2. Create a .env File
 
 - Copy the example file:
 
@@ -82,18 +82,18 @@ DB_PORT=3306
 
 ```
 
-# 🐬 3. Set Up MySQL
+### 🐬 3. Set Up MySQL
 - Install MySQL & create a database named cricket_dashboard.
 - Start your MySQL server (via Workbench or command line).
 
-# 📦 4. Install Dependencies
+### 📦 4. Install Dependencies
 - Use pip to install required libraries:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-# 🏗️ 5. Fetch Live Data (optional):
+### 🏗️ 5. Fetch Live Data (optional):
 
 - If you're using the Cricbuzz API:
 
@@ -107,7 +107,7 @@ python fetch_cricket_data.py
 python insert_csv_to_db.py
 ```
 
-# ▶️ 6. Run the App:
+### ▶️ 6. Run the App:
 
 ```bash
 streamlit run app.py
