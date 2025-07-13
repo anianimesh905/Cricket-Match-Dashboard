@@ -1,5 +1,6 @@
 streamlit
-requests
 pandas
 mysql-connector-python
 python-dotenv
+SQLAlchemy
+requests
