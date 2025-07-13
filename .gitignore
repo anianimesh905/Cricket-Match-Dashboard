@@ -1,0 +1,42 @@
+# 🐍 Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+.Python
+env/
+venv/
+ENV/
+.venv/
+
+# 📦 Package files
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
+
+# 🌍 Environment variables
+.env
+.env.*
+
+# 🔧 VSCode / IDE settings
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# 🗃 Logs and database
+*.log
+*.sqlite3
+*.db
+
+# 📊 Streamlit
+.streamlit/config.toml
+.streamlit/secrets.toml
+
+# 💻 macOS/Linux/Windows system files
+.DS_Store
+Thumbs.db
+desktop.ini
