@@ -1,7 +1,7 @@
 import os
 import streamlit as st
 import pandas as pd
-import mysql.connector
+from sqlalchemy import create_engine
 from dotenv import load_dotenv
 
 # Load environment variables from .env
@@ -27,22 +27,22 @@ st.markdown("This dashboard shows recent cricket matches fetched using the Cricb
 
 # Connect to MySQL and fetch data
 try:
-    conn = mysql.connector.connect(
-        host=DB_HOST,
-        user=DB_USERNAME,
-        password=DB_PASSWORD,
-        database=DB_NAME,
-        port=DB_PORT
-    )
+    # Build SQLAlchemy connection URL
+    db_uri = f"mysql+pymysql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
+    # Create SQLAlchemy engine
+    engine = create_engine(db_uri)
+
+    # Define your query
     query = "SELECT series, match_desc, team1, team2, status FROM recent_matches ORDER BY id DESC;"
-    df = pd.read_sql(query, conn)
-    conn.close()
 
+    # Read from MySQL using SQLAlchemy engine
+    df = pd.read_sql(query, con=engine)
+    
     # Show dataframe in Streamlit
     st.dataframe(df, use_container_width=True)
 
-except mysql.connector.Error as err:
+except Exception as err:
     st.error(f"Database connection failed: {err}")
 
 # Sidebar footer
