@@ -16,7 +16,7 @@ DB_NAME = os.getenv("DB_NAME")
 DB_USERNAME = os.getenv("DB_USERNAME")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_HOST = os.getenv("DB_HOST")
-DB_PORT = int(os.getenv("DB_PORT"))
+DB_PORT = int(os.getenv("DB_PORT", 3306))  # uses 3306 if DB_PORT is not found
 
 # Cricbuzz API endpoint
 url = "https://cricbuzz-cricket.p.rapidapi.com/matches/v1/recent"
