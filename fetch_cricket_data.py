@@ -4,19 +4,19 @@ import mysql.connector
 import pandas as pd
 from dotenv import load_dotenv
 
-# Load environment variables from .env
+# Load environment variables
 load_dotenv()
 
-# API credentials from .env
+# API credentials
 API_KEY = os.getenv("API_KEY")
 API_HOST = os.getenv("API_HOST")
 
-# MySQL credentials from .env
+# MySQL credentials
 DB_NAME = os.getenv("DB_NAME")
 DB_USERNAME = os.getenv("DB_USERNAME")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_HOST = os.getenv("DB_HOST")
-DB_PORT = int(os.getenv("DB_PORT", 3306))  # uses 3306 if DB_PORT is not found
+DB_PORT = int(os.getenv("DB_PORT", 3306))
 
 # Cricbuzz API endpoint
 url = "https://cricbuzz-cricket.p.rapidapi.com/matches/v1/recent"
@@ -34,22 +34,23 @@ except Exception as e:
     print(f"Error fetching data from API: {e}")
     exit()
 
-# Extract relevant data
+# ✅ Correct data parsing
 matches = []
-for match in data.get("matches", []):
-    info = match.get("matchInfo", {})
-    if not info:
-        continue
+for match_type in data.get("typeMatches", []):
+    for series in match_type.get("seriesMatches", []):
+        series_info = series.get("seriesAdWrapper", {})
+        series_name = series_info.get("seriesName", "Unknown Series")
+        
+        for match in series_info.get("matches", []):
+            info = match.get("matchInfo", {})
+            match_desc = info.get("matchDesc", "Unknown Match")
+            team1 = info.get("team1", {}).get("teamName", "TBD")
+            team2 = info.get("team2", {}).get("teamName", "TBD")
+            status = info.get("status", "N/A")
 
-    team1 = info.get("team1", {}).get("teamName", "N/A")
-    team2 = info.get("team2", {}).get("teamName", "N/A")
-    series = info.get("seriesName", "N/A")
-    match_desc = info.get("matchDesc", "N/A")
-    status = info.get("status", "N/A")
+            matches.append((series_name, match_desc, team1, team2, status))
 
-    matches.append((series, match_desc, team1, team2, status))
-
-# Convert to DataFrame
+# Create DataFrame
 df = pd.DataFrame(matches, columns=["series", "match_desc", "team1", "team2", "status"])
 print("Fetched matches:\n", df)
 
@@ -85,14 +86,15 @@ try:
     INSERT INTO recent_matches (series, match_desc, team1, team2, status)
     VALUES (%s, %s, %s, %s, %s)
     """
-
     cursor.executemany(insert_query, matches)
     conn.commit()
-    print("Data inserted successfully into recent_matches table.")
+    print("✅ Data inserted successfully into recent_matches table.")
 
 except mysql.connector.Error as err:
     print(f"MySQL error: {err}")
 
 finally:
-    if cursor: cursor.close()
-    if conn: conn.close()
+    if cursor:
+        cursor.close()
+    if conn:
+        conn.close()
