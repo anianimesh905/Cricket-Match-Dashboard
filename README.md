@@ -55,7 +55,7 @@ The data is stored in a **MySQL database** and displayed in a clean, responsive 
 ### ✅ 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/Cricket-Match-Dashboard.git
+git clone https://github.com/anianimesh905/Cricket-Match-Dashboard.git
 cd Cricket-Match-Dashboard
 ```
 ### 🔐 2. Create a .env File
